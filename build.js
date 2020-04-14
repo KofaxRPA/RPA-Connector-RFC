@@ -42,7 +42,7 @@ if (WINDOWS_BUILD) {
 	fs.mkdirSync(KRPA_RFC_BUILD_WINDOWS, {recursive : true});
 	await util.promisify(function(cb) {
 		var npm = require('npm');
-		npm.load({'package-lock': false, 'ignore-scripts': true, 'platform': 'win32', 'arch': 'ia32'}, function (er, data) {
+		npm.load({'package-lock': false, 'ignore-scripts': true, 'production': true, 'platform': 'win32', 'arch': 'ia32'}, function (er, data) {
 			if (er) cb(er, data);
 			else npm.commands.install(KRPA_RFC_BUILD_WINDOWS, ['deasync', NODE_RFC_BUILD + '/node-rfc-'+ nodeRfcBranch +'.tgz'], function (er, data) {
 				cb(er, data);
@@ -69,7 +69,7 @@ if (LINUX_BUILD) {
 	fs.mkdirSync(KRPA_RFC_BUILD_LINUX, {recursive : true});
 	await util.promisify(function(cb) {
 	var npm = require('npm');
-	npm.load({'package-lock': false, 'ignore-scripts': true, 'platform': 'linux', 'arch': 'x64'}, function (er, data) {
+	npm.load({'package-lock': false, 'ignore-scripts': true, 'production': true, 'platform': 'linux', 'arch': 'x64'}, function (er, data) {
 		if (er) cb(er, data);
 		else npm.commands.install(KRPA_RFC_BUILD_LINUX, ['deasync', 'node-rfc@' + nodeRfcVersion], function (er, data) {
 			cb(er, data);
@@ -95,7 +95,7 @@ if ((WINDOWS_BUILD) && (LINUX_BUILD)) {
 	
 	await util.promisify(function(cb) {
 	var npm = require('npm');
-	npm.load({'package-lock': false, 'ignore-scripts': true, 'platform': 'linux', 'arch': 'x64'}, function (er, data) {
+	npm.load({'package-lock': false, 'ignore-scripts': true, 'production': true, 'platform': 'linux', 'arch': 'x64'}, function (er, data) {
 		if (er) cb(er, data);
 		else npm.commands.install(KRPA_RFC_BUILD_ALL, ['deasync', 'node-rfc-win32@' + NODE_RFC_BUILD + '/node-rfc-'+ nodeRfcBranch +'.tgz', 'node-rfc-linux@npm:node-rfc@' + nodeRfcVersion], function (er, data) {
 			cb(er, data);
