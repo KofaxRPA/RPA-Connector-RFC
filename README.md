@@ -1,6 +1,11 @@
 # RPA-Connector-RFC
 SAP RFC connector for Kofax RPA
 
+## Overview
+
+RFC connector is offering native SAP RFC (Remote Function Call) capability to Kofax RPA 11.
+The connector can easily invoke many SAP remote function modules including BAPI modules and ABAP custom code.
+
 ## Features
 
 -   Based on [node-rfc](https://github.com/SAP/node-rfc)
