@@ -8,6 +8,7 @@ ARG NODE_VERSION=12.16.1
 ARG GIT_VERSION=2.25.1
 ARG CMAKE_VERSION=3.17.0
 ARG VS_VERSION=16
+ARG PY_VERSION=3.8.2
 
 # Restore the default Windows shell for correct batch processing.
 SHELL ["cmd", "/S", "/C"]
@@ -35,6 +36,11 @@ ADD https://github.com/git-for-windows/git/releases/download/v${GIT_VERSION}.win
 
 RUN mkdir C:\git && powershell -Command "expand-archive -Path 'C:\TEMP\Mingit.zip' -DestinationPath 'C:\git'" && del C:\TEMP\Mingit.zip
 
+# Download Python
+ADD https://www.python.org/ftp/python/${PY_VERSION}/python-${PY_VERSION}-embed-amd64.zip C:\TEMP\python.zip
+
+RUN mkdir C:\python && powershell -Command "expand-archive -Path 'C:\TEMP\python.zip' -DestinationPath 'C:\python'" && del C:\TEMP\python.zip
+
 # Download Node
 ADD https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-win-x86.zip C:\TEMP\node.zip
 
@@ -51,7 +57,7 @@ ADD https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/cmake-$
 RUN powershell -Command "expand-archive -Path 'C:\TEMP\CMake.zip' -DestinationPath 'C:\'" && del C:\TEMP\CMake.zip
 
 USER ContainerAdministrator
-RUN setx /M PATH "%PATH%;C:\node-v"%NODE_VERSION%"-win-x86;C:\cmake-"%CMAKE_VERSION%"-win64-x64\bin;C:\git\cmd" && setx /M SAPNWRFC_HOME "C:\nwrfcsdk"
+RUN setx /M PATH "%PATH%;C:\node-v"%NODE_VERSION%"-win-x86;C:\cmake-"%CMAKE_VERSION%"-win64-x64\bin;C:\git\cmd;C:\python" && setx /M SAPNWRFC_HOME "C:\nwrfcsdk"
 USER ContainerUser
 
 ENTRYPOINT ["powershell.exe", "C:\\build.ps1"]
